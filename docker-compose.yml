@@ -1,0 +1,9 @@
+db:
+    container_name: smu_db
+    image: postgres:13.2
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=smu
+      - POSTGRES_PASSWORD=samplepass
+      - POSTGRES_USER=smu_user
