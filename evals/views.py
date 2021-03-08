@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
+from .models import Course
 
 def index(request):
-    return HttpResponse("Hello world! You're at evals/index")
+    num_courses = Course.objects.count
+    context = {
+        'num_courses': num_courses
+    }
+    return render(request, 'evals/index.html', context)
