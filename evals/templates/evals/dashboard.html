@@ -2,6 +2,8 @@
 
 {% block content %}
 <h2>Hello, {{ user.username }}!</h2>
-<p>There are {{ num_courses }} courses avalible</p>
+{% if view_course == True %}
+<a href="{% url 'courses' %}">Courses</a>
+{% endif %}
 <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}

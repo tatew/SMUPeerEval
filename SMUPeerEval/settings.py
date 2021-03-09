@@ -129,3 +129,4 @@ options = DATABASES['default'].get('OPTIONS', {})
 options.pop('sslmode', None)
 
 LOGIN_REDIRECT_URL = "dashboard"
+LOGOUT_REDIRECT_URL = "/"
