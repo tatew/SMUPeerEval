@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMU Peer Evaluation System</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'evals/style.css' %}">
-</head>
-<body>
-    <h1>Welcome to the Singapore Management University Peer Evaluation System</h1>
-    <p>There are {{ num_courses }} courses avalible</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>You are not logged in!</h2>
+<a href="{% url 'login' %}">Login</a>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Hello, {{ user.username }}!</h2>
+<p>There are {{ num_courses }} courses avalible</p>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}
