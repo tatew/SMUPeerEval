@@ -1,3 +1,105 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    font-family: 'Open Sans', sans-serif;   
+    background-color: rgb(245,245,245);
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    background-color: rgb(215,229,241);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 5rem;
+}
+
+header h1 {
+    font-family: 'Oswald', sans-serif;
+    color: rgb(69,110,173);
+}
+
+header img {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    background-color: rgb(215,229,241);
+    margin-top: 1.5rem;
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.login h3 {
+    text-align: center;
+    color: rgb(215,229,241);
+    background-color: rgb(69,110,173);
+    margin: 0;
+    padding: 1rem 0;
+    width: 100%;
+    font-family: 'Oswald', sans-serif;
+}
+
+.login form {
+    margin: 1rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(69,110,173);
+}
+
+.login i {
+    color:black;
+    font-size: 1.5rem;
+}
+
+.login .row {
+    margin-bottom: 1rem;
+    justify-content: left;
+}
+
+.login .lastrow {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login .lastrow a {
+    margin: 1rem 0 1rem 0;
+    color: rgb(69,110,173);
+}
+
+#submit {
+    font-family: 'Oswald', sans-serif;
+    border: none;
+    width: 9rem;
+    height: 2rem; 
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+#submit:hover {
+    border: 2px solid blue;
+}
+

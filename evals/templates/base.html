@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMU Peer Evaluation System</title>
     {% load static %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Oswald&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'evals/style.css' %}">
+    <script src="https://kit.fontawesome.com/9176a4e312.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Welcome to the Singapore Management University Peer Evaluation System</h1>
-    {% block content %}
-    {% endblock %}
+    <header>
+        <img src="{% static 'evals/logo.png' %}" height="60rem">
+        <h1>SMU</h1>
+    </header>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
