@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>There are {{ num_courses }} courses avalible</p>
+<div class="courses">
+    <table border="1px solid black">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Course Number</th>
+                <th>Max Students</th>
+                <th>Discipline</th>
+                <th>Professor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.courseName }}</td>
+                    <td>{{ course.courseNumber }}</td>
+                    <td>{{ course.maxStudents }}</td>
+                    <td>{{ course.discipline }}</td>
+                    <td>{{ course.professor.firstName }} {{ course.professor.lastName }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'addCourse' %}">New Course</a>
+</div>
+
 {% endblock%}

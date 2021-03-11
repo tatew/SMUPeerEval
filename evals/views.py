@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Course
 from django.contrib.auth.decorators import login_required, permission_required
+from .forms import CourseForm
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -19,8 +21,35 @@ def dashboard(request):
 
 @permission_required('evals.view_course')
 def courses(request):
-    num_courses = Course.objects.count
+    courses = Course.objects.order_by('courseNumber')
     context = {
-        'num_courses': num_courses
+        'courses': courses
     }
     return render(request, 'evals/courses.html', context)
+
+def addCourse(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = CourseForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            print(form.cleaned_data)
+            course = Course(
+                courseNumber=form.cleaned_data['courseNumber'], 
+                courseName=form.cleaned_data['courseName'], 
+                meetingTime=form.cleaned_data['meetingTime'], 
+                maxStudents=form.cleaned_data['maxStudents'], 
+                discipline=form.cleaned_data['discipline'], 
+                professor=form.cleaned_data['professor']
+            )
+            course.save()
+            return HttpResponseRedirect('/courses/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = CourseForm()
+
+    return render(request, 'evals/addCourse.html', {'form': form})

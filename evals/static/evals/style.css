@@ -37,6 +37,7 @@ header img {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .login {
@@ -101,5 +102,20 @@ header img {
 
 #submit:hover {
     border: 2px solid blue;
+}
+
+.courses table {
+    text-align: center;
+}
+
+td, th {
+    padding: 0.3rem
+}
+
+#addCourse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
