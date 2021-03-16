@@ -18,3 +18,20 @@ class Course(models.Model):
     meetingTime = models.DateTimeField('meeting time')
     discipline = models.CharField(max_length=50)
     professor = models.ForeignKey(Professor, on_delete=models.RESTRICT)
+
+class Student(models.Model):
+    lastName = models.CharField(max_length=50)
+    firstName = models.CharField(max_length=50)
+    email = models.CharField(max_length=100)
+    school = models.CharField(max_length=100)
+    programme = models.CharField(max_length=100)
+
+class Enrollment(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.RESTRICT)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+class Group(models.Model):
+
+class projectGroup(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.RESTRICT)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
