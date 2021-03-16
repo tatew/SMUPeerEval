@@ -6,6 +6,10 @@ class Professor(models.Model):
     firstName = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
     school = models.CharField(max_length=100)
+    class Meta:
+        permissions = [
+            ("is_professor", "If the User is a professor ")
+        ]
 
 class Course(models.Model):
     courseName = models.CharField(max_length=50)

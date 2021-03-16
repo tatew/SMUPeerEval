@@ -14,7 +14,12 @@
 <body>
     <header>
         <img src="{% static 'evals/logo.png' %}" height="60rem">
-        <h1>SMU</h1>
+        {% block title %}
+        {% endblock %}
+        <nav>
+            {% block nav %}
+            {% endblock %}
+        </nav>
     </header>
     <div class="content">
         {% block content %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<h1>404 - Not Found</h1>
+{% endblock%} 
+
+{% block content %}
+<h1>Sorry, this page does not exist!</h1>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

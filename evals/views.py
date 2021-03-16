@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Course
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import CourseForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
@@ -13,13 +13,13 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    view_course = request.user.has_perm('evals.view_course')
-    context = {
-        'view_course': view_course
-    }
-    return render(request, 'evals/dashboard.html', context)
+    is_prof = request.user.has_perm('evals.is_professor')
+    if is_prof :
+        return render(request, 'evals/profHome.html')
+    else:
+        return render(request, 'evals/notFounnd.html')
 
-@permission_required('evals.view_course')
+@permission_required('evals.is_professor')
 def courses(request):
     courses = Course.objects.order_by('courseNumber')
     context = {
@@ -53,3 +53,6 @@ def addCourse(request):
         form = CourseForm()
 
     return render(request, 'evals/addCourse.html', {'form': form})
+
+def notImplemented(request):
+    return HttpResponse("This link is not yet implemented. One of these days Tate will get his act together and get it done.")

@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+<h1 class="oswald">SMU Peer Evaluation System</h1>
+{% endblock%} 
+
 {% block content %}
 <h2>You are not logged in!</h2>
 <a href="{% url 'login' %}">Login</a>
