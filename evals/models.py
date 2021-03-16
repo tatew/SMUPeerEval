@@ -31,6 +31,8 @@ class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 class Group(models.Model):
+    groupName = models.CharField(max_length=50)
+    course = models.ForeignKey(Course, on_delete=models.RESTRICT)
 
 class projectGroup(models.Model):
     group = models.ForeignKey(Group, on_delete=models.RESTRICT)
