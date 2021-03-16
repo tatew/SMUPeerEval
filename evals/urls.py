@@ -12,6 +12,7 @@ urlpatterns = [
     path('groups/', views.groups, name='groups'),
     path('evals/assign', views.assignEval, name='assignEval'),
     path('students/' , views.students, name='students'),
+    path('visualizations/', views.visual, name='visual'),
     path('courses/add/', views.addCourse, name='addCourse'),
     path('courses/', views.courses, name='courses'),
     path('notImplemented/', views.notImplemented, name='notImplemented'),

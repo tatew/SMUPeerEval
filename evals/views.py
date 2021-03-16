@@ -71,6 +71,10 @@ def students(request):
 def groups(request):
     return render(request, 'evals/groups.html')
 
+@permission_required('evals.is_professor')
+def visual(request):
+    return render(request, 'evals/visualizations.html')
+
 def createAccountEmail(request):
     if request.method == 'POST':
         email = request.POST['email']
