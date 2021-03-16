@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Course
+from .models import Course, Professor
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import CourseForm
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -53,6 +54,53 @@ def addCourse(request):
         form = CourseForm()
 
     return render(request, 'evals/addCourse.html', {'form': form})
+
+@permission_required('evals.is_professor')
+def addGroup(request):
+    return render(request, 'evals/addGroup.html')
+
+@permission_required('evals.is_professor')
+def assignEval(request):
+    return render(request, 'evals/assignEval.html')
+
+@permission_required('evals.is_professor')
+def students(request):
+    return render(request, 'evals/students.html')
+
+@permission_required('evals.is_professor')
+def groups(request):
+    return render(request, 'evals/groups.html')
+
+def createAccountEmail(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        return HttpResponseRedirect(f'/accounts/new/{email}/')
+    else:
+        return render(request, 'evals/createAccountEmail.html')
+
+def createAccount(request, email):
+    exists = True
+    try:
+        user = User.objects.get(email=email)
+    except:
+        exists = False
+    isProf = True
+    try:
+        prof = Professor.objects.get(email=email)
+    except:
+        isProf = False
+
+    print(exists, isProf)
+    if not exists and isProf:
+        if request.method =='POST':
+            return HttpResponseRedirect('/index/')
+        else:
+            context = {
+                'email': email
+            }
+            return render(request, 'evals/newAccount.html', context)
+    else:
+        return HttpResponse("Account creation forbiden: Error Code 21-315")
 
 def notImplemented(request):
     return HttpResponse("This link is not yet implemented. One of these days Tate will get his act together and get it done.")

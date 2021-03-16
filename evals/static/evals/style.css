@@ -25,7 +25,7 @@ header h1 {
     color: rgb(69,110,173);
 }
 
-header img {
+.headerImg {
     position: absolute;
     left: 0.5rem;
     top: 50%;
@@ -63,6 +63,91 @@ nav .last {
     margin-top: 1.5rem;
 }
 
+.index {
+    background-color: rgb(215,229,241);
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.index h3 {
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.index div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 7rem;
+}
+
+.index a {
+    padding: 0.2rem;
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    cursor: pointer;
+    border-radius: 2px;
+    border: 2px solid rgb(69,110,173);
+}
+
+.index a:hover {
+    color: rgb(69,110,173);
+    background-color: rgb(215,229,241);
+    border: 2px solid rgb(69,110,173);
+}
+
+.createAccountEmail {
+    background-color: rgb(215,229,241);
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.createAccountEmail h3 {
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.createAccountEmail p {
+    padding: 1rem;
+}
+
+.createAccountEmail form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 1rem;
+    height: 7rem;
+}
+
+.createAccountEmail label {
+    color: rgb(69,110,173);
+    margin: 0.2rem;
+}
+
+.createAccountEmail .row {
+    display: flex;
+    align-items: center;
+}
+
+.createAccountEmail i {
+    color: rgb(69,110,173);
+    font-size: 1.5rem;
+}
+
 .login {
     background-color: rgb(215,229,241);
     width: 50vw;
@@ -90,7 +175,7 @@ nav .last {
 }
 
 .login i {
-    color:black;
+    color: rgb(69,110,173);
     font-size: 1.5rem;
 }
 

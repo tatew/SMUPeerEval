@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <img src="{% static 'evals/logo.png' %}" height="60rem">
+        <a href="{% url 'index' %}" class="headerImg"><img src="{% static 'evals/logo.png' %}" height="60rem"></a>
         {% block title %}
         {% endblock %}
         <nav>

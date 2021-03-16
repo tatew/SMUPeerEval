@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h1 class="oswald">Create Account</h1>
+{% endblock%} 
+
+{% block nav %}
+    <a href="{% url 'login' %}" class="last">Back to Login</a>
+{% endblock %}
+
+{% block content %}
+    <div class="createAccountEmail">
+        <h3>Enter your email</h3>
+        <div>
+            <form action="{% url 'createAccountEmail' %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <i class="fas fa-envelope"></i>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                
+                <input id="submit" type="submit" value="Submit" class="oswald"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
