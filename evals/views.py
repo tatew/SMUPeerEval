@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Course, Professor
+from .models import Course, Professor, Student
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import CourseForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -65,7 +65,32 @@ def assignEval(request):
 
 @permission_required('evals.is_professor')
 def students(request):
-    return render(request, 'evals/students.html')
+    courses = Course.objects.order_by('courseName')
+    students = Student.objects.order_by('lastName')
+    selected = -1
+    lastName = 'checked'
+    firstName = ''
+    
+    if request.method == 'POST':
+        if request.POST['course'] != 'None':
+            students = Student.objects.filter(enrollment__course_id=request.POST['course'])
+            selected = int(request.POST['course'])
+        
+        if request.POST['sort'] == 'firstName':
+            firstName = 'checked'
+            lastName = ''
+
+        students = students.order_by(request.POST['sort'])
+
+    context = {
+        'courses': courses,
+        'students': students,
+        'selected': selected,
+        'firstName': firstName,
+        'lastName': lastName
+    }
+
+    return render(request, 'evals/students.html', context)
 
 @permission_required('evals.is_professor')
 def groups(request):

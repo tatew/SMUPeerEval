@@ -26,6 +26,9 @@ class Student(models.Model):
     school = models.CharField(max_length=100)
     programme = models.CharField(max_length=100)
 
+    def __str__(self):
+        return f'{self.firstName} {self.lastName}'
+
 class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.RESTRICT)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

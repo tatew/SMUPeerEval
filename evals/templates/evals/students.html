@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h1 class="oswald">Students</h1>
+    <h1 class="oswald">Student and Course Dataset</h1>
 {% endblock%} 
 
 {% block nav %}
@@ -12,6 +12,56 @@
 
 {% block content %}
     <div class="students">
-        
+        <form class="filter" action="{% url 'students' %}" method="post">
+            {% csrf_token %}
+            <h3>Filter Options</h3>
+            <div class="body">
+                <div class="row">
+                    <label for="course">Course:</label>
+                    <select name="course" id="course">
+                        <option value="None">None</option>
+                        {% for course in courses %}
+                            {% if selected == course.id %}
+                            <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                            {% else %}
+                            <option value="{{ course.id }}" >{{course.courseName}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="row">
+                    <p>Sort Alphabetically by:</p>
+                    <div class="sort">
+                        <label for="firstName"><input id="firstName" type="radio" value="firstName" {{ firstName }} name="sort"> First Name</label>
+                        <label for="lastName"><input id="lastName" type="radio" value="lastName" {{ lastName }} name="sort"> Last Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <input id="submit" type="submit" value="Query Results" class="oswald"/>
+                </div>
+            </div>
+        </form>
+        <div class="data">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Email</th>
+                        <th>School</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.lastName }}</td>
+                            <td>{{ student.firstName }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.school }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
