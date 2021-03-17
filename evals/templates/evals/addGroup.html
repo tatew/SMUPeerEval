@@ -11,7 +11,52 @@
 {% endblock %}
 
 {% block content %}
+    
     <div class="addGroup">
-        
+        <h3 class="oswald pageHeader">Groups Creation</h3>
+        <form id="courseForm" action="{% url 'addGroup' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <label for="coursesDropdown">Choose a course:</label>
+                <select name="course" id="coursesDropdown">
+                    {% for course in courses %}
+                        {% if selected == course.id %}
+                        <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                        {% else %}
+                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <form action="{% url 'addGroupSubmit' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <label for="groupName">Group Name:</label>
+                <input type="text" name="groupName" id="groupName">
+            </div>
+            
+            <div class="students">
+                {% for student in students %}
+                    <label class="student" for="{{ student.id }}"><input type="checkbox" name="students" value={{student.id}}> {{student.firstName}} {{student.lastName}}</label>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <input id="submit" type="submit" value="Add Group" class="oswald"/>
+            </div>
+            <input type="number" name="courseId" hidden value="{{ selected }}">
+        </form>
     </div>
+    <script>
+        function addGroup() {
+            const courses = document.getElementById("coursesDropdown");
+            form = document.getElementById('courseForm');
+            courses.addEventListener("change", (e) => {
+                console.log(e.target.value);
+                form.submit();
+            });
+        }
+
+        window.addEventListener(onload, addGroup());
+    </script>
 {% endblock %}

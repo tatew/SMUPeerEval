@@ -14,7 +14,7 @@
     <div class="students">
         <form class="filter" action="{% url 'students' %}" method="post">
             {% csrf_token %}
-            <h3>Filter Options</h3>
+            <h3 class="pageHeader">Filter Options</h3>
             <div class="body">
                 <div class="row">
                     <label for="course">Course:</label>

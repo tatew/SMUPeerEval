@@ -305,14 +305,6 @@ td, th {
     color: rgb(69,110,173);
 }
 
-.filter h3 {
-    background-color: rgb(215,229,241);
-    color: rgb(69,110,173);
-    text-align: center;
-    border-bottom: 2px solid black;
-    padding: 0.3rem;
-}
-
 .filter {
     border: 2px solid black;
 }
@@ -340,4 +332,107 @@ table, th, td {
     border: 2px solid black;
 }
 
+.assignEval {
+    width: 60%;
+    max-width: 500px;
+    border: 2px solid black;
+}
+
+.assignEval form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.assignEval .row {
+    margin: 1.2rem;
+}
+
+.assignEval .textarea {
+    display: flex;
+    align-items: flex-start;
+}
+
+.assignEval label {
+    margin-right: 0.2rem;
+}
+
+.evalSuccess {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.evalSuccess a {
+    padding: 0.2rem;
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    cursor: pointer;
+    border-radius: 2px;
+    border: 2px solid rgb(69,110,173);
+    margin: 0.3rem;
+}
+
+.evalSuccess a:hover {
+    color: rgb(69,110,173);
+    background-color: rgb(215,229,241);
+    border: 2px solid rgb(69,110,173);
+}
+
+.addGroup {
+    width: 60%;
+    max-width: 500px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.addGroup form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.addGroup .students {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.addGroup .row {
+    margin: 0.5rem;
+}
+
+.groups {
+    display: flex;
+    align-items: flex-start;
+    width: 80%;
+    max-width: 1000px;
+}
+
+#detailHeader {
+    border-top: 2px solid black;
+}
+
+.detailData {
+    margin: 1rem;
+}
+
+.studentList {
+    margin-left: 1rem;
+}
+
+.buttonCell {
+    text-align: center;
+}
+
+.pageHeader {
+    width: 100%;
+    background-color: rgb(215,229,241);
+    color: rgb(69,110,173);
+    text-align: center;
+    padding: 0.5rem 0 0.5rem 0;
+    border-bottom: 2px solid black;
+}
 

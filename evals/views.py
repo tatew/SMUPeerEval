@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Course, Professor, Student
+from .models import Course, Professor, Student, Group, projectGroup
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import CourseForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 def index(request):
@@ -57,11 +58,53 @@ def addCourse(request):
 
 @permission_required('evals.is_professor')
 def addGroup(request):
-    return render(request, 'evals/addGroup.html')
+    courses = Course.objects.order_by('courseName')
+    selected = courses[0].id
+    
+    if request.method == 'POST':
+        print(request.POST)
+        selected = int(request.POST['course'])
+        
+
+    students = students = Student.objects.filter(enrollment__course_id=selected)
+    context = {
+        'courses': courses,
+        'selected': selected,
+        'students': students
+    }
+    return render(request, 'evals/addGroup.html', context)
+
+def addGroupSubmit(request):
+    if request.method == 'POST':
+        print(request.POST)
+        group = Group(course_id=int(request.POST['courseId']), groupName=request.POST['groupName'])
+        group.save()
+        newGroup = Group.objects.latest('id')
+
+        for studentId in request.POST.getlist('students'):
+            stuId = int(studentId)
+            student = Student.objects.get(id=stuId)
+            pGroup = projectGroup(student=student, group=newGroup)
+            pGroup.save()
+        
+
+    return HttpResponseRedirect('/')
 
 @permission_required('evals.is_professor')
 def assignEval(request):
-    return render(request, 'evals/assignEval.html')
+
+    if request.method == 'POST':
+        return HttpResponseRedirect('success')
+
+    courses = Course.objects.order_by('courseName')
+    now = datetime.now()
+    date = now.strftime("%B %d %Y %H:%M:%S")
+    context = {
+        'date': date,
+        'courses': courses
+    }
+
+    return render(request, 'evals/assignEval.html', context)
 
 @permission_required('evals.is_professor')
 def students(request):
@@ -94,7 +137,37 @@ def students(request):
 
 @permission_required('evals.is_professor')
 def groups(request):
-    return render(request, 'evals/groups.html')
+    courses = Course.objects.order_by('courseName')
+    groups = Group.objects.order_by('groupName')
+    students = []
+    selected = -1
+    groupName = ""
+    groupCourseName = ""
+
+    if request.method =='POST':
+        print(request.POST)
+        if 'course' in request.POST:
+            if (request.POST['course'] == '-1'):
+                courses = Course.objects.order_by('courseName')
+            else:
+                groups = Group.objects.filter(course__id=request.POST['course'])
+                selected = int(request.POST['course'])
+        if 'groupId' in request.POST:
+            students = Student.objects.filter(projectgroup__group_id=int(request.POST['groupId']))
+            groupName = Group.objects.get(id=int(request.POST['groupId'])).groupName
+            groupCourseName = Group.objects.get(id=int(request.POST['groupId'])).course.courseName
+
+    
+    context = {
+        'courses': courses,
+        'selected': selected,
+        'groups': groups,
+        'students': students,
+        'groupName': groupName,
+        'groupCourseName': groupCourseName
+    }
+
+    return render(request, 'evals/groups.html', context)
 
 @permission_required('evals.is_professor')
 def visual(request):
@@ -133,3 +206,7 @@ def createAccount(request, email):
 
 def notImplemented(request):
     return HttpResponse("This link is not yet implemented. One of these days Tate will get his act together and get it done.")
+
+@permission_required('evals.is_professor')
+def evalSuccess(request):
+    return render(request, 'evals/evalSuccess.html')

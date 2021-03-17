@@ -12,6 +12,89 @@
 
 {% block content %}
 <div class="groups">
-    
+    <form class="filter" action="{% url 'groups' %}" method="post" id="courseForm">
+        {% csrf_token %}
+        <h3 class="pageHeader">Filter Options</h3>
+        <div class="body">
+            <div class="row">
+                <label for="course">Course:</label>
+                <select name="course" id="course">
+                    <option value="-1">All</option>
+                    {% for course in courses %}
+                        {% if selected == course.id %}
+                        <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                        {% else %}
+                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="details">
+            
+                {% if students%}
+                    <h3 class="pageHeader" id="detailHeader">Details for {{groupName}}</h3>
+                    <div class="detailData">
+                        <div class="row">
+                            <p class="subheader">Course: {{groupCourseName}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="subheader">Students:</p>
+                        </div>
+                        <ol class="studentList">
+                            {% for student in students %}
+                                <li>{{student.firstName}} {{ student.lastName }}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                {% else %}
+                    <h3 class="pageHeader" id="detailHeader">Details</h3>
+                    <div class="detailData">
+                        <p><em>Choose a group for details...</em></p>
+                    </div>
+                {% endif %}
+        </div>
+    </form>
+    <div class="data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                    <th>Course Name</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                    <tr>
+                        <td>{{ group.groupName }}</td>
+                        <td>{{ group.course.courseName }}</td>
+                        <td class="buttonCell">
+                            <form action="{% url 'groups' %}" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="groupId" hidden value="{{ group.id }}">
+                                <input type="number" name="course" hidden value="{{ selected }}">
+                                <input id="submit" type="submit" value="Details" class="oswald"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function groups() {
+            const courses = document.getElementById("course");
+            form = document.getElementById('courseForm');
+            console.log(form)
+            courses.addEventListener("change", (e) => {
+                console.log(e.target.value);
+                form.submit();
+            });
+        }
+
+        window.addEventListener(onload, groups());
+    </script>
 </div>
 {% endblock %}

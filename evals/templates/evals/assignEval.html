@@ -12,6 +12,33 @@
 
 {% block content %}
     <div class="assignEval">
-        
+        <h3 class="oswald pageHeader">Please fill out every input</h3>
+        <form action="{% url 'assignEval' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                {{ date }}
+            </div>
+            <div class="row">
+                <label for="courses">Course Number:</label>
+                <select name="course" id="courses" required>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="row">
+                <label for="expire">Expiration Date:</label>
+                <input type="date" name="expire" id="expire" required>
+            </div>
+            <div class="row textarea">
+                <label for="message">Message for Students:</label>
+                <textarea name="message" id="message" cols="30" rows="7" required></textarea>
+            </div>
+            <div class="row">
+                <input id="submit" type="submit" value="Send and Schedule" class="oswald"/>
+            </div>
+
+            
+        </form>
     </div>
 {% endblock %}
