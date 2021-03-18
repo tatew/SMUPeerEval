@@ -13,7 +13,7 @@
 {% block content %}
     <div class="assignEval">
         <h3 class="oswald pageHeader">Please fill out every input</h3>
-        <form action="{% url 'assignEval' %}" method="POST">
+        <form id="evalForm" action="{% url 'assignEval' %}" method="POST">
             {% csrf_token %}
             <div class="row">
                 {{ date }}
@@ -34,11 +34,63 @@
                 <label for="message">Message for Students:</label>
                 <textarea name="message" id="message" cols="30" rows="7" required></textarea>
             </div>
+            <div id="error"></div>
             <div class="row">
-                <input id="submit" type="submit" value="Send and Schedule" class="oswald"/>
+                <input id="submitBtn" class="btn oswald" type="button" value="Send and Schedule" class="oswald"/>
             </div>
-
-            
         </form>
+        <script>
+            function isInPast(date) {
+                const today = new Date();
+                const components = date.split('-');
+                const year = parseInt(components[0]);
+                const month = parseInt(components[1]) - 1;
+                const day = parseInt(components[2]);
+
+                const expire = new Date(year, month, day, 0, 0, 0, 0);
+                return expire <= today;
+            }
+
+            function assignEval() {
+                const evalForm = document.getElementById("evalForm");
+                const message = document.getElementById("message");
+                const expire = document.getElementById("expire");
+                const submit = document.getElementById("submitBtn");
+                const errors = document.getElementById("error");
+                submit.addEventListener("click", e => {
+                    const oldError = document.getElementById('emessages');
+                    if (oldError) {
+                        oldError.remove()
+                    }
+                    const emessages = document.createElement('div');
+                    emessages.setAttribute('id', 'emessages');
+                    error.appendChild(emessages);
+                    if (!expire.value) {
+                        let error = document.createElement('p');
+                        error.innerHTML = "Please choose a expiration date!"
+                        error.setAttribute('id', 'emessage');
+                        error.setAttribute('class', 'row');
+                        emessages.appendChild(error);
+                    } else if (isInPast(expire.value)) {
+                        let error = document.createElement('p');
+                        error.innerHTML = "You cannot chooose an expiration date in the past!"
+                        error.setAttribute('id', 'emessage');
+                        error.setAttribute('class', 'row');
+                        emessages.appendChild(error);
+                    } else if (message.value == '') {
+                        let error = document.createElement('p');
+                        error.innerHTML = "Please enter a message!"
+                        error.setAttribute('id', 'message');
+                        error.setAttribute('class', 'row');
+                        emessages.appendChild(error);
+                    }
+                    else {
+                        evalForm.submit();
+                    }
+                });
+            }
+
+            window.addEventListener(onload, assignEval());
+        </script>
     </div>
 {% endblock %}

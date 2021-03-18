@@ -404,6 +404,11 @@ table, th, td {
     margin: 0.5rem;
 }
 
+
+#error {
+    color: red;
+}
+
 .groups {
     display: flex;
     align-items: flex-start;
@@ -434,5 +439,22 @@ table, th, td {
     text-align: center;
     padding: 0.5rem 0 0.5rem 0;
     border-bottom: 2px solid black;
+}
+
+.btn {
+    border: none;
+    width: 9rem;
+    height: 2rem; 
+    background-color: rgb(69,110,173);
+    color: rgb(215,229,241);
+    cursor: pointer;
+    border-radius: 2px;
+    border: 2px solid rgb(69,110,173);
+}
+
+.btn:hover {
+    color: rgb(69,110,173);
+    background-color: rgb(215,229,241);
+    border: 2px solid rgb(69,110,173);
 }
 

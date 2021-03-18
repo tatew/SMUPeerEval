@@ -29,23 +29,24 @@
                 </select>
             </div>
         </form>
-        <form action="{% url 'addGroupSubmit' %}" method="POST">
+        <form id="groupForm" action="{% url 'addGroupSubmit' %}" method="POST">
             {% csrf_token %}
             <div class="row">
                 <label for="groupName">Group Name:</label>
-                <input type="text" name="groupName" id="groupName">
+                <input type="text" name="groupName" id="groupName" required>
             </div>
             
             <div class="students">
                 {% for student in students %}
-                    <label class="student" for="{{ student.id }}"><input type="checkbox" name="students" value={{student.id}}> {{student.firstName}} {{student.lastName}}</label>
+                    <label class="student" for="{{ student.id }}"><input id="studentCheckboxes" type="checkbox" name="students" value={{student.id}}> {{student.firstName}} {{student.lastName}}</label>
                 {% endfor %}
-            </div>
-            <div class="row">
-                <input id="submit" type="submit" value="Add Group" class="oswald"/>
             </div>
             <input type="number" name="courseId" hidden value="{{ selected }}">
         </form>
+        <div id="error" class="row"></div>
+        <div class="row">
+            <input id="btnSubmit" class="btn oswald" type="button" value="Add Group" class="oswald"/>
+        </div>
     </div>
     <script>
         function addGroup() {
@@ -54,6 +55,50 @@
             courses.addEventListener("change", (e) => {
                 console.log(e.target.value);
                 form.submit();
+            });
+
+            group = document.getElementById('groupForm');
+            const students = document.getElementsByName("students");
+            let numStudents = 0;
+
+            students.forEach( node => {
+                node.addEventListener('change', el => {
+                    if (el.target.checked) {
+                        numStudents++;
+                    }
+                    if (!el.target.checked) {
+                        numStudents--;
+                    }
+                    console.log(numStudents);
+                });
+            });
+
+
+            const submit = document.getElementById("btnSubmit");
+            const groupName = document.getElementById("groupName")
+            const errors = document.getElementById("error");
+            submit.addEventListener("click", e => {
+                const oldError = document.getElementById('emessages');
+                if (oldError) {
+                    oldError.remove()
+                }
+                const emessages = document.createElement('div');
+                emessages.setAttribute('id', 'emessages');
+                error.appendChild(emessages);
+                if (groupName.value == '') {
+                    const noStudents = document.createElement('p');
+                    noStudents.innerHTML = "Please enter a group name!"
+                    noStudents.setAttribute('id', 'message')
+                    emessages.appendChild(noStudents);
+                } else if (numStudents <= 1) {
+                    const noStudents = document.createElement('p');
+                    noStudents.innerHTML = "Please choose at least 2 students for the group!"
+                    noStudents.setAttribute('id', 'message')
+                    emessages.appendChild(noStudents);
+                }
+                else {
+                    group.submit();
+                }
             });
         }
 
