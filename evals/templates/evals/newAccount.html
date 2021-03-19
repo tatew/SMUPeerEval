@@ -13,7 +13,7 @@
     <h3 class="oswald altHeader">Create Account</h3>
     <form method="POST" action="{% url 'createAccountPost' %}">
         <div class="row">
-            <label>Email: </label><input type="text" name="email" id="email" disabled value="{{email}}">
+            <label>Email: </label>{{email}}<input type="text" name="email" id="email" hidden value="{{email}}">
         </div>
         {% csrf_token %}
         {% for field in form %}
