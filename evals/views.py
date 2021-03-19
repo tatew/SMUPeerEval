@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Course, Professor, Student, Group, projectGroup
 from django.contrib.auth.decorators import login_required, permission_required
-from .forms import CourseForm
+from .forms import CourseForm, SignUpForm
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from datetime import datetime
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 
 
 def index(request):
@@ -94,6 +96,7 @@ def addGroupSubmit(request):
 def assignEval(request):
 
     if request.method == 'POST':
+        print(request.POST)
         return HttpResponseRedirect('success')
 
     courses = Course.objects.order_by('courseName')
@@ -180,6 +183,19 @@ def createAccountEmail(request):
     else:
         return render(request, 'evals/createAccountEmail.html')
 
+def createAccountPost(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            permission = Permission.objects.get(codename='is_professor')
+            user.user_permissions.add(permission)
+            login(request, user)
+            return HttpResponseRedirect('../../dashboard/')
+
 def createAccount(request, email):
     exists = True
     try:
@@ -194,13 +210,13 @@ def createAccount(request, email):
 
     print(exists, isProf)
     if not exists and isProf:
-        if request.method =='POST':
-            return HttpResponseRedirect('/index/')
-        else:
-            context = {
-                'email': email
-            }
-            return render(request, 'evals/newAccount.html', context)
+        form = UserCreationForm()
+        context = {
+            'email': email,
+            'form': form
+        }
+        
+        return render(request, 'evals/newAccount.html', context)
     else:
         return HttpResponse("Account creation forbiden: Error Code 21-315")
 

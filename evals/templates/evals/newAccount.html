@@ -1,15 +1,35 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <h1 class="oswald">Create Account</h1>
-{% endblock%} 
+<h1 class="oswald">Create Account</h1>
+{% endblock%}
 
 {% block nav %}
-    <a href="{% url 'login' %}" class="last">Back to Login</a>
+<a href="{% url 'login' %}" class="last">Back to Login</a>
 {% endblock %}
 
 {% block content %}
-    <div class="createAccount">
-        {{email}}
-    </div>
+<div class="createAccount">
+    <h3 class="oswald altHeader">Create Account</h3>
+    <form method="POST" action="{% url 'createAccountPost' %}">
+        <div class="row">
+            <label>Email: </label><input type="text" name="email" id="email" disabled value="{{email}}">
+        </div>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="row">
+                {{ field.label_tag }} {{ field }}
+                {% if field.help_text %}
+                    <em class="helpText">{{ field.help_text }}</em>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="buttonContainer">
+            <button type="submit" class="btn oswald">Sign up</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

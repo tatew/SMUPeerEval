@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="createAccountEmail">
-        <h3>Enter your email</h3>
+        <h3 class="oswald altHeader">Enter your email</h3>
         <div>
             <form action="{% url 'createAccountEmail' %}" method="post">
                 {% csrf_token %}
