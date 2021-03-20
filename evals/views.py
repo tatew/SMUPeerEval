@@ -24,21 +24,14 @@ def home(request):
     if (is_student):
         return redirect(stuHome)
         
-@login_required
+@permission_required('evals.is_student')
 def stuHome(request):
-    is_student = request.user.has_perm('evals.is_student')
-    if is_student :
-        return render(request, 'evals/stuHome.html')
-    else:
-        return render(request, 'evals/notFound.html')
+    return render(request, 'evals/stuHome.html')
 
-@login_required
+@permission_required('evals.is_professor')
 def profHome(request):
-    is_prof = request.user.has_perm('evals.is_professor')
-    if is_prof :
-        return render(request, 'evals/profHome.html')
-    else:
-        return render(request, 'evals/notFound.html')
+    return render(request, 'evals/profHome.html')
+
 
 @permission_required('evals.is_professor')
 def courses(request):
