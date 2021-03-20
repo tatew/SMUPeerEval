@@ -19,12 +19,20 @@ class Course(models.Model):
     discipline = models.CharField(max_length=50)
     professor = models.ForeignKey(Professor, on_delete=models.RESTRICT)
 
+    def __str__(self):
+        return f'{self.discipline} {self.courseNumber} {self.courseName}'
+
 class Student(models.Model):
     lastName = models.CharField(max_length=50)
     firstName = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
     school = models.CharField(max_length=100)
     programme = models.CharField(max_length=100)
+
+    class Meta:
+        permissions = [
+            ("is_student", "If the User is a Student ")
+        ]
 
     def __str__(self):
         return f'{self.firstName} {self.lastName}'

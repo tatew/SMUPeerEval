@@ -11,17 +11,34 @@ from django.contrib.auth import login, authenticate
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('/dashboard')
+        return redirect('/home')
     else:
         return render(request, 'evals/index.html')
 
 @login_required
-def dashboard(request):
+def home(request):
+    is_prof = request.user.has_perm('evals.is_professor')
+    if (is_prof):
+        return redirect(profHome)
+    is_student = request.user.has_perm('evals.is_student')
+    if (is_student):
+        return redirect(stuHome)
+        
+@login_required
+def stuHome(request):
+    is_student = request.user.has_perm('evals.is_student')
+    if is_student :
+        return render(request, 'evals/stuHome.html')
+    else:
+        return render(request, 'evals/notFound.html')
+
+@login_required
+def profHome(request):
     is_prof = request.user.has_perm('evals.is_professor')
     if is_prof :
         return render(request, 'evals/profHome.html')
     else:
-        return render(request, 'evals/notFounnd.html')
+        return render(request, 'evals/notFound.html')
 
 @permission_required('evals.is_professor')
 def courses(request):
@@ -194,7 +211,7 @@ def createAccountPost(request):
             permission = Permission.objects.get(codename='is_professor')
             user.user_permissions.add(permission)
             login(request, user)
-            return HttpResponseRedirect('../../dashboard/')
+            return HttpResponseRedirect('../../home/')
 
 def createAccount(request, email):
     exists = True

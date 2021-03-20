@@ -255,6 +255,11 @@ td, th {
     flex: 5;
 }
 
+.stuHome {
+    width: 80%;
+    max-width: 1000px;
+}
+
 .funcs div {
     display: flex;
     align-items: center;
