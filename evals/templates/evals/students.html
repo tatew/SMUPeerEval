@@ -6,7 +6,7 @@
 
 {% block nav %}
     <a href="{% url 'notImplemented' %}">View Profile</a>
-    <a href="{% url 'dashboard' %}">Go Home</a>
+    <a href="{% url 'home' %}">Go Home</a>
     <a href="{% url 'logout' %}" class="last">Log Out</a>
 {% endblock %}
 
@@ -28,6 +28,10 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                </div>
+                <div class="row">
+                    <label for="stuName">Search By Last Name: </label>
+                    <input type="text" name="stuName" id="stuName">
                 </div>
                 <div class="row">
                     <p>Sort Alphabetically by:</p>

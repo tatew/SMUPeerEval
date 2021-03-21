@@ -136,6 +136,9 @@ def students(request):
             firstName = 'checked'
             lastName = ''
 
+        if (request.POST['stuName'] != ''):
+            students = students.filter(lastName__icontains=request.POST['stuName'])
+
         students = students.order_by(request.POST['sort'])
 
     context = {

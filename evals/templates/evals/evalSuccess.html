@@ -6,7 +6,7 @@
 
 {% block nav %}
     <a href="{% url 'notImplemented' %}">View Profile</a>
-    <a href="{% url 'dashboard' %}">Go Home</a>
+    <a href="{% url 'home' %}">Go Home</a>
     <a href="{% url 'logout' %}" class="last">Log Out</a>
 {% endblock %}
 
@@ -14,6 +14,6 @@
     <div class="evalSuccess">
         <h3>Evaluation Successfully Assigned!</h3>
         <a href="{% url 'assignEval' %}">Assign Another</a>
-        <a href="{% url 'dashboard' %}">Go Home</a>
+        <a href="{% url 'home' %}">Go Home</a>
     </div>
 {% endblock %}

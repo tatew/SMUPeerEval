@@ -1,8 +1,5 @@
 import csv
 from .models import Student
-from django.db.utils import IntegrityError
-from django.core.exceptions import FieldDoesNotExist
-from django.db import transaction
 from django.contrib import messages
 
 def importCSV(reader, request):
