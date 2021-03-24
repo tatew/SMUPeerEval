@@ -48,3 +48,29 @@ class Group(models.Model):
 class projectGroup(models.Model):
     group = models.ForeignKey(Group, on_delete=models.RESTRICT)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+class peerAssessment(models.Model):
+    reviewerID = models.ForeignKey(Student, on_delete=models.CASCADE)
+    revieweeID = models.ForeignKey(Student, on_delete=models.CASCADE)
+    assigned = meetingTime = models.DateTimeField('Assigned')
+    submitted = meetingTime = models.DateTimeField('Submitted', default=None, blank=True, null=True)
+
+class Score(models.Model):
+    contribution1 = models.IntegerField()
+    contribution2 = models.IntegerField()
+    contribution3 = models.IntegerField()
+    facilitation1 = models.IntegerField()
+    facilitation2 = models.IntegerField()
+    facilitation3 = models.IntegerField()
+    planning1 = models.IntegerField()
+    planning2 = models.IntegerField()
+    planning3 = models.IntegerField()
+    climate1 = models.IntegerField()
+    climate2 = models.IntegerField()
+    conflict1 = models.IntegerField()
+    conflict2 = models.IntegerField()
+    conflict3 = models.IntegerField()
+    overall = models.IntegerField()
+
+
+
