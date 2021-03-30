@@ -45,13 +45,13 @@ class Group(models.Model):
     groupName = models.CharField(max_length=50)
     course = models.ForeignKey(Course, on_delete=models.RESTRICT)
 
-class ProjectGroup(models.Model):
+class projectGroup(models.Model):
     group = models.ForeignKey(Group, on_delete=models.RESTRICT)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 class AssessmentAssigned(models.Model):
     reviewerID = models.ForeignKey(Student, on_delete=models.RESTRICT)
-    revieweeID = models.ForeignKey(Student, on_delete=models.RESTRICT)
+    revieweeID = models.IntegerField()
     assigned = models.DateTimeField('Assigned:')
 
 class AssessmentSubmitted(models.Model):
