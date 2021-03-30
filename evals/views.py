@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
-from .models import Course, Professor, Student, Group, projectGroup
 from django.contrib.auth.decorators import login_required, permission_required
-from .forms import CourseForm, SignUpForm
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User, Permission
-from datetime import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponseRedirect, HttpResponse
+from django.db.models import Q
+from datetime import datetime
+from .forms import CourseForm, SignUpForm
+from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned
+import pytz
 
 
 def index(request):
@@ -107,6 +109,18 @@ def assignEval(request):
 
     if request.method == 'POST':
         print(request.POST)
+        groups = Group.objects.filter(course=int(request.POST['course']))
+        for group in groups:
+            students = Student.objects.filter(projectgroup__group_id=group.id)
+            for student in students:
+                otherStudents = students.filter(~Q(id=student.id))
+                for otherStudent in otherStudents:
+                    course = Course.objects.get(id=int(request.POST['course']))
+                    date = datetime.strptime(request.POST['expire'], '%Y-%m-%d')
+                    assessment = AssessmentAssigned(assigned=datetime.now(pytz.utc), reviewerID=student, revieweeID=otherStudent, course=course, expiration=date, message=request.POST['message'])
+                    assessment.save()
+
+
         return HttpResponseRedirect('success')
 
     courses = Course.objects.order_by('courseName')

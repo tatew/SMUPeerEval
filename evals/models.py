@@ -51,8 +51,11 @@ class projectGroup(models.Model):
 
 class AssessmentAssigned(models.Model):
     reviewerID = models.ForeignKey(Student, on_delete=models.RESTRICT)
-    revieweeID = models.IntegerField()
+    revieweeID = models.ForeignKey(Student, on_delete=models.RESTRICT, related_name="AssessmentGrade")
+    course = models.ForeignKey(Course, on_delete=models.RESTRICT)
     assigned = models.DateTimeField('Assigned:')
+    expiration = models.DateField(null=True)
+    message = models.TextField(default="")
 
 class AssessmentSubmitted(models.Model):
     assessmentAssignedID = models.ForeignKey(AssessmentAssigned, on_delete=models.RESTRICT)
