@@ -11,33 +11,35 @@
 
 {% block content %}
     <div class="stuHome">
-        <h2 class="oswald">Welcome, Student!</h2>
         
-        <div class="results">
-            <h3 class="pageHeader">Peer Evlautaion Results</h3>
-            <div class="row"><h3>Analysis is ready:</h3><a class="buttonLink" href="{% url 'stuVisual' %}">View<i class="fas fa-chart-area"></i></a></div>
-        </div>
+        <h2 class="oswald">Welcome, Student!</h2>
         <table>
             <thead>
-                <th>Courses</th>
+                <th>Groups</th>
                 <th>Completed</th>
                 <th>Due Date</th>
             </thead>
             <tbody>
-                {% for course in courses %}
+                {% for group in groups %}
                     <tr>
-                        <td class="course"><h3>{{ course.course.courseName }}</h3></td>
+                        <td class="group"><h3>{{group.group.course.courseName}} - {{ group.group.groupName }}</h3></td>
                         <td>
-                            {% if not course.submitted %}
-                                <a class="buttonLink" href="/evals/complete/{{course.course.id}}/">Fill out<i class="fas fa-pencil-alt"></i></a>
+                            {% if not group.submitted %}
+                                <a class="buttonLink" href="/evals/complete/{{group.group.id}}/">Fill out<i class="fas fa-pencil-alt"></i></a>
                             {% else %}
                                 <i class="fas fa-check"></i>
                             {% endif %}
                         </td>
-                        <td>{{ course.due }}</td>
+                        <td>{{ group.due }}</td>
                     </tr>
                 {% endfor%}
             </tbody>
         </table>
+        <div class="results">
+            <div class="inner">
+                <h3 class="pageHeader">Peer Evlautaion Results</h3>
+                <div class="row"><h3>Analysis is ready:</h3><a class="buttonLink" href="{% url 'stuVisual' %}">View<i class="fas fa-chart-area"></i></a></div>
+            </div>
+        </div>
     </div>  
 {% endblock %}

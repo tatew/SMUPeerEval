@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q
 from datetime import datetime
 from .forms import CourseForm, SignUpForm
-from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned, Enrollment, AssessmentSubmitted
+from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned, Enrollment, AssessmentSubmitted, Category
 import pytz
 from .services import service
 
@@ -30,23 +30,23 @@ def home(request):
 @permission_required('evals.is_student')
 def stuHome(request):
     student = Student.objects.get(email=request.user.email)
-    assessments = AssessmentAssigned.objects.filter(reviewerID=student.id)
-    courseIds = assessments.values('course').distinct()
+    assessments = AssessmentAssigned.objects.filter(reviewer=student.id)
+    groupIds = assessments.values('group').distinct()
 
-    courseObjs = []
-    for courseId in courseIds:
-        course = Course.objects.get(id=courseId['course'])
-        assessmentsForCourse = assessments.filter(course=course.id)
-        due = assessmentsForCourse[0].expiration
-        courseObj = {
-            'course': course,
-            'submitted': service.assessmentCompleted(assessmentsForCourse),
+    groupObjs = []
+    for groupId in groupIds:
+        group = Group.objects.get(id=groupId['group'])
+        assessmentsForGroup = assessments.filter(group=group.id)
+        due = assessmentsForGroup[0].expiration
+        groupObj = {
+            'group': group,
+            'submitted': service.assessmentCompleted(assessmentsForGroup),
             'due': due
         }
-        courseObjs.append(courseObj)
+        groupObjs.append(groupObj)
 
     context = {
-        'courses': courseObjs
+        'groups': groupObjs
     }
     return render(request, 'evals/stuHome.html', context)
 
@@ -134,9 +134,8 @@ def assignEval(request):
             for student in students:
                 otherStudents = students.filter(~Q(id=student.id))
                 for otherStudent in otherStudents:
-                    course = Course.objects.get(id=int(request.POST['course']))
                     date = datetime.strptime(request.POST['expire'], '%Y-%m-%d')
-                    assessment = AssessmentAssigned(assigned=datetime.now(pytz.utc), reviewerID=student, revieweeID=otherStudent, course=course, expiration=date, message=request.POST['message'])
+                    assessment = AssessmentAssigned(assigned=datetime.now(pytz.utc), reviewer=student, reviewee=otherStudent, group=group, expiration=date, message=request.POST['message'])
                     assessment.save()
 
 
@@ -274,9 +273,41 @@ def evalSuccess(request):
     return render(request, 'evals/evalSuccess.html')
 
 @permission_required('evals.is_student')
-def evalFillOut(request, courseId):
+def evalFillOut(request, groupId):
+    reviewerStudent = Student.objects.get(email=request.user.email)
+    group = Group.objects.get(id=groupId)
+    reviewee = None
+    if request.method == 'POST':
+        print(request.POST)
+        completed = request.POST.get('completed', False)
+        if (completed):
+            service.recordScore(request.POST, reviewerStudent, group)
+        else:
+            reviewee = Student.objects.get(id=request.POST['studentId'])
+    
+    students = Student.objects.filter(projectgroup__group_id=groupId).exclude(id=reviewerStudent.id)
+    studentObjs = []
+    assessments = []
+    for stu in students:
+        assessment = AssessmentAssigned.objects.get(reviewee=stu.id, reviewer=reviewerStudent.id, group=group.id)
+        submitted = AssessmentSubmitted.objects.filter(assessmentAssignedID=assessment.id).exists()
+        stuObj = {
+            'student': stu,
+            'submitted': submitted
+        }
+        studentObjs.append(stuObj)
+        assessments.append(assessment)
+        
+    categories = Category.objects.all()
+
+
     context = {
-        'course': courseId
+        'group': group,
+        'students': studentObjs,
+        'course': group.course,
+        'reviewee': reviewee,
+        'categories': categories,
+        'complete': service.assessmentCompleted(assessments)
     }
     return render(request, 'evals/eval.html', context)
 

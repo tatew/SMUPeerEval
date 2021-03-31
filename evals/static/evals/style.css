@@ -493,13 +493,15 @@ table, th, td {
     justify-content: center;
 }
 
-.stuHome .results {
- 
+.stuHome .results .inner {
     border: 2px solid black;
+    width: 30rem;
 }
 
 .stuHome .results {
-    margin: 1.5rem 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .stuHome .row h3 {
@@ -507,15 +509,16 @@ table, th, td {
 }
 
 .stuHome .row .buttonLink {
-    flex: 2;
+    flex: 1;
 }
 
 .stuHome table {
     width: 100%;
     text-align: center;
+    margin: 1.5rem 0 1.5rem 0;
 }
 
-.stuHome table .course {
+.stuHome table .group {
     text-align: left;
 }
 

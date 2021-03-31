@@ -50,9 +50,9 @@ class projectGroup(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
 class AssessmentAssigned(models.Model):
-    reviewerID = models.ForeignKey(Student, on_delete=models.RESTRICT)
-    revieweeID = models.ForeignKey(Student, on_delete=models.RESTRICT, related_name="AssessmentGrade")
-    course = models.ForeignKey(Course, on_delete=models.RESTRICT)
+    reviewer = models.ForeignKey(Student, on_delete=models.RESTRICT)
+    reviewee = models.ForeignKey(Student, on_delete=models.RESTRICT, related_name="AssessmentGrade")
+    group = models.ForeignKey(Group, on_delete=models.RESTRICT)
     assigned = models.DateTimeField('Assigned:')
     expiration = models.DateField(null=True)
     message = models.TextField(default="")
@@ -63,6 +63,9 @@ class AssessmentSubmitted(models.Model):
 
 class Category(models.Model):
     description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.description
 
 class Score(models.Model):
     categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)

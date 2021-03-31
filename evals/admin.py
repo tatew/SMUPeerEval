@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.urls import path
 
-from .models import Course, Professor, Student, Group
+from .models import Course, Professor, Student, Group, Category
 from django import forms
 from django.http import HttpResponseRedirect
 
@@ -13,6 +13,7 @@ import io
 admin.site.register(Course)
 admin.site.register(Professor)
 admin.site.register(Group)
+admin.site.register(Category)
 
 class CsvUploadForm(forms.Form):
     csv_file = forms.FileField()

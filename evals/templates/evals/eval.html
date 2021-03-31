@@ -12,6 +12,61 @@
 
 {% block content %}
     <div class="eval">
-        <p>{{course}}</p>
+        <table>
+            <h3 class="pageHeader">Peer Evaluation for {{course.courseName}} - {{group.groupName}}</h3>
+            <thead>
+                <th colspan="2">Choose a student to evaluate</th>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{student.student}}</td>
+                        {% if not student.submitted %}
+                            <form action="/evals/complete/{{group.id}}/" method="POST">
+                                <input type="number" name="studentId" id="studentId" value="{{student.student.id}}" hidden>
+                                {% csrf_token %}
+                                <td><button type="submit" class="btn oswald">Evaluate</button></td>
+                            </form>
+                        {% else %}
+                            <td><i class="fas fa-check"></i></td>
+                        {% endif %}
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+        {% if reviewee %}
+            <form action="/evals/complete/{{group.id}}/" method="POST">
+                <table>
+                    <thead>
+                        <th>Student: {{reviewee}} 1 = Very Poor 5 = Very Good</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                    </thead>
+                        {% csrf_token %}
+                        <input type="checkbox" name="completed" hidden checked>
+                        <input type="number" name="reviewee" hidden value="{{reviewee.id}}">
+                        <tbody>
+                            {% for category in categories %}
+                                <tr>
+                                    <td>{{ category.description }}</td>
+                                    <td><input type="radio" name="{{category.id}}" id="cat1" required value="1"></td>
+                                    <td><input type="radio" name="{{category.id}}" id="cat1" required value="2"></td>
+                                    <td><input type="radio" name="{{category.id}}" id="cat1" required value="3"></td>
+                                    <td><input type="radio" name="{{category.id}}" id="cat1" required value="4"></td>
+                                    <td><input type="radio" name="{{category.id}}" id="cat1" required value="5"></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+                <button class="btn oswald" type="submit">Submit</button>
+            </form>
+        {% endif %}
+        {% if complete %}
+            <h3>Complete!</h3>
+            <a class="btn oswald" href="{% url 'home' %}">Go Home!</a>
+        {% endif %}
     </div>  
 {% endblock %}
