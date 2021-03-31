@@ -7,8 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q
 from datetime import datetime
 from .forms import CourseForm, SignUpForm
-from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned
+from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned, Enrollment, AssessmentSubmitted
 import pytz
+from .services import service
 
 
 def index(request):
@@ -28,7 +29,26 @@ def home(request):
         
 @permission_required('evals.is_student')
 def stuHome(request):
-    return render(request, 'evals/stuHome.html')
+    student = Student.objects.get(email=request.user.email)
+    assessments = AssessmentAssigned.objects.filter(reviewerID=student.id)
+    courseIds = assessments.values('course').distinct()
+
+    courseObjs = []
+    for courseId in courseIds:
+        course = Course.objects.get(id=courseId['course'])
+        assessmentsForCourse = assessments.filter(course=course.id)
+        due = assessmentsForCourse[0].expiration
+        courseObj = {
+            'course': course,
+            'submitted': service.assessmentCompleted(assessmentsForCourse),
+            'due': due
+        }
+        courseObjs.append(courseObj)
+
+    context = {
+        'courses': courseObjs
+    }
+    return render(request, 'evals/stuHome.html', context)
 
 @permission_required('evals.is_professor')
 def profHome(request):
@@ -108,7 +128,6 @@ def addGroupSubmit(request):
 def assignEval(request):
 
     if request.method == 'POST':
-        print(request.POST)
         groups = Group.objects.filter(course=int(request.POST['course']))
         for group in groups:
             students = Student.objects.filter(projectgroup__group_id=group.id)
@@ -253,3 +272,14 @@ def notImplemented(request):
 @permission_required('evals.is_professor')
 def evalSuccess(request):
     return render(request, 'evals/evalSuccess.html')
+
+@permission_required('evals.is_student')
+def evalFillOut(request, courseId):
+    context = {
+        'course': courseId
+    }
+    return render(request, 'evals/eval.html', context)
+
+@permission_required('evals.is_student')
+def stuVisualizations(request):
+    return render(request, 'evals/stuVisualizations.html')

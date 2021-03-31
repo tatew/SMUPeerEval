@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h1 class="oswald">Peer Evaluation</h1>
+{% endblock%} 
+
+{% block nav %}
+    <a href="{% url 'notImplemented' %}">View Profile</a>
+    <a href="{% url 'home' %}">Go Home</a>
+    <a href="{% url 'logout' %}" class="last">Log Out</a>
+{% endblock %}
+
+{% block content %}
+    <div class="eval">
+        <p>{{course}}</p>
+    </div>  
+{% endblock %}

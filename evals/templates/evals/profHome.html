@@ -14,14 +14,14 @@
         <h2 class="oswald">Welcome, Professor!</h2>
         <div class="funcs">
             <div class="headercell oswald"><h3>Actions</h3></div>
-            <div class="row"><h3>Create Groups</h3><a href="{% url 'addGroup' %}">Create<i class="fas fa-plus-square"></i></a></div>
-            <div class="row"><h3>Assign Peer Evaluations</h3><a href="{% url 'assignEval' %}">Assign<i class="fas fa-clipboard-list"></i></a></div>
+            <div class="row"><h3>Create Groups</h3><a class="buttonLink" href="{% url 'addGroup' %}">Create<i class="fas fa-plus-square"></i></a></div>
+            <div class="row"><h3>Assign Peer Evaluations</h3><a class="buttonLink" href="{% url 'assignEval' %}">Assign<i class="fas fa-clipboard-list"></i></a></div>
         </div>
         <div class="funcs">
             <div class="headercell oswald"><h3>Datasets to View</h3></div>
-            <div class="row"><h3>Students and Courses</h3><a href="{% url 'students' %}">View<i class="fas fa-table"></i></a></div>
-            <div class="row"><h3>Groups</h3><a href="{% url 'groups' %}">View<i class="fas fa-user-friends"></i></a></div>
-            <div class="row"><h3>Visualizations</h3><a href="{% url 'visual' %}">View<i class="fas fa-chart-area"></i></a></div>
+            <div class="row"><h3>Students and Courses</h3><a class="buttonLink" href="{% url 'students' %}">View<i class="fas fa-table"></i></a></div>
+            <div class="row"><h3>Groups</h3><a class="buttonLink" href="{% url 'groups' %}">View<i class="fas fa-user-friends"></i></a></div>
+            <div class="row"><h3>Visualizations</h3><a class="buttonLink" href="{% url 'profVisual' %}">View<i class="fas fa-chart-area"></i></a></div>
         </div>
     </div>
 {% endblock %}

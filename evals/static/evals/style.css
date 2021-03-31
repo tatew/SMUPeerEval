@@ -26,6 +26,11 @@ header h1 {
     color: rgb(69,110,173);
 }
 
+.fa-check {
+    color: green;
+    font-size: 1.5rem;
+}
+
 .headerImg {
     position: absolute;
     left: 0.5rem;
@@ -225,13 +230,14 @@ td, th {
 .headercell {
     background-color: rgb(215,229,241);
     color: rgb(69,110,173);
+    padding: 0.3rem;
 }
 
 .profHome .row {
     border-top: 2px solid black;
 }
 
-.profHome .row a{
+.buttonLink {
     background-color: #383838;
     color: white;
     flex: 1;
@@ -241,13 +247,13 @@ td, th {
     border: 2px solid #383838;
 }
 
-.profHome .row a:hover{
+.buttonLink:hover{
     background-color: white;
     color: #383838;
     
 }
 
-.profHome .row i {
+.buttonLink i {
     margin-left: 0.2rem;
 }
 
@@ -260,7 +266,7 @@ td, th {
     max-width: 1000px;
 }
 
-.funcs div {
+.row {
     display: flex;
     align-items: center;
     padding: 0.3rem;
@@ -291,11 +297,6 @@ td, th {
     width: 100%;
 }
 
-.data thead {
-    background-color: rgb(215,229,241);
-    color: rgb(69,110,173);
-}
-
 .filter {
     border: 2px solid black;
 }
@@ -313,6 +314,11 @@ td, th {
 .filter .sort {
     display: flex;
     flex-direction: column;
+}
+
+thead {
+    background-color: rgb(215,229,241);
+    color: rgb(69,110,173);
 }
 
 table {
@@ -486,4 +492,36 @@ table, th, td {
     display: flex;
     justify-content: center;
 }
+
+.stuHome .results {
+ 
+    border: 2px solid black;
+}
+
+.stuHome .results {
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+.stuHome .row h3 {
+    flex: 5;
+}
+
+.stuHome .row .buttonLink {
+    flex: 2;
+}
+
+.stuHome table {
+    width: 100%;
+    text-align: center;
+}
+
+.stuHome table .course {
+    text-align: left;
+}
+
+.stuHome td {
+    padding: 0.7rem;
+}
+
+
 
