@@ -526,5 +526,48 @@ table, th, td {
     padding: 0.7rem;
 }
 
+.stuVisual {
+    width: 80%;
+    max-width: 1004px;
+}
+
+.stuVisual .general, .stuVisual .tableau {
+    border: 2px solid black;
+}
+
+.stuVisual .general .generalStats {
+    display: flex;
+    justify-content: space-around;
+    height: 7rem;
+    padding: 0.5rem;
+}
+
+.stuVisual .general {
+    margin-bottom: 1rem;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 10rem;
+    text-align: center;
+}
+
+.col select {
+    margin: 1rem 0 1rem 0;
+}
+
+.stuVisual .tableau {
+    height: 870px;
+}
+
+.score {
+    font-size: larger;
+    font-weight: bold;
+    background-color: lightgray;
+    padding: 0.2rem;
+}
+
 
 

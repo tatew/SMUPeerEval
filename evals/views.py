@@ -4,10 +4,10 @@ from django.contrib.auth.models import User, Permission
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponseRedirect, HttpResponse
-from django.db.models import Q
+from django.db.models import Q, Avg
 from datetime import datetime
 from .forms import CourseForm, SignUpForm
-from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned, Enrollment, AssessmentSubmitted, Category
+from .models import Course, Professor, Student, Group, projectGroup, AssessmentAssigned, Enrollment, AssessmentSubmitted, Category, Score
 import pytz
 from .services import service
 
@@ -313,4 +313,25 @@ def evalFillOut(request, groupId):
 
 @permission_required('evals.is_student')
 def stuVisualizations(request):
-    return render(request, 'evals/stuVisualizations.html')
+    student = Student.objects.get(email=request.user.email)
+
+    courses = Course.objects.filter(enrollment__student_id=student.id)
+    course = courses.first()
+
+    if request.method == 'POST':
+        course = courses.get(id=int(request.POST.get('course')))
+
+    group = Group.objects.filter(course=course.id).first()
+    scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.id, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, categoryID__description='Overall')
+    avgStu = scoresForCourse.aggregate(Avg('score'))['score__avg']
+
+    scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
+    avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
+    print(course)
+    context = {
+        'courses': courses,
+        'selected': course,
+        'avgStu': avgStu,
+        'avgTeam': avgTeam
+    }
+    return render(request, 'evals/stuVisualizations.html', context)

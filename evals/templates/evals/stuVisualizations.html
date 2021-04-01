@@ -11,7 +11,61 @@
 {% endblock %}
 
 {% block content %}
-    <div class="visual">
-        
+    <script type='text/javascript' src='https://prod-useast-b.online.tableau.com/javascripts/api/viz_v1.js'></script>
+    <div class="stuVisual">
+        <div class="general">
+            <h3 class="pageHeader">General Statitics</h3>
+            <div class="generalStats">
+                <div class="col">
+                    <form action="{% url 'stuVisual' %}" method="POST" id="courseForm">
+                        {% csrf_token %}
+                        <label for="course">Select a Course:</label>
+                        <select name="course" id="course">
+                            {% for course in courses %}
+                                {% if selected.id == course.id %}
+                                    <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                                {% else %}
+                                    <option value="{{ course.id }}" >{{course.courseName}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+                <div class="col">
+                    <p>Your average overall score:</p>
+                    <p class="score">{{avgStu}}</p>
+                </div>
+                <div class="col">
+                    <p>Your Team's average overall score:</p>
+                    <p class="score">{{avgTeam}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="tableau">
+            <h3 class="pageHeader">Visualizations</h3>
+            <div class='tableauPlaceholder'>
+                <object class='tableauViz' width='1000' height='827' style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fprod-useast-b.online.tableau.com%2F' />
+                    <param name='embed_code_version' value='3' />
+                    <param name='site_root' value='&#47;t&#47;projecthostingwebsite' />
+                    <param name='name' value='StudentDashboard&#47;Student' />
+                    <param name='tabs' value='no' /><param name='toolbar' value='yes' />
+                    <param name='showAppBanner' value='false' />
+                </object>
+            </div>
+        </div>
+        <script>
+            function courses() {
+                const courses = document.getElementById("course");
+                form = document.getElementById('courseForm');
+                console.log(form)
+                courses.addEventListener("change", (e) => {
+                    console.log(e.target.value);
+                    form.submit();
+                });
+            }
+    
+            window.addEventListener(onload, courses());
+        </script>
     </div>
 {% endblock %}
