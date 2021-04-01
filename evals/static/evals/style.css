@@ -455,6 +455,12 @@ table, th, td {
     border: 2px solid rgb(69,110,173);
 }
 
+.btn i {
+    margin-left: 0.2rem;
+    color: inherit;
+    font-size: 1rem;
+}
+
 .createAccount {
     width: 60%;
     max-width: 700px;
@@ -567,6 +573,48 @@ table, th, td {
     font-weight: bold;
     background-color: lightgray;
     padding: 0.2rem;
+}
+
+.eval {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    max-width: 1000px;
+    border: 2px solid black;
+}
+
+.eval .evalForm {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.eval table {
+    width: 90%;
+    text-align: center;
+}
+
+.eval .studentsToEval {
+    width: 30rem;
+}
+
+.eval table .headerCol {
+    text-align: left;
+}
+
+.eval div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
+}
+
+.eval #evalInstructions {
+    display: flex;
+    justify-content: space-around;
+    border: none;
 }
 
 

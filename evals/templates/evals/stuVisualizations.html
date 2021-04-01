@@ -58,14 +58,23 @@
             function courses() {
                 const courses = document.getElementById("course");
                 form = document.getElementById('courseForm');
-                console.log(form)
                 courses.addEventListener("change", (e) => {
+                    console.log(e.target.value);
+                    form.submit();
+                });
+            }
+
+            function categories() {
+                const categories = document.getElementById("categories");
+                form = document.getElementById('categoryForm');
+                categories.addEventListener("change", (e) => {
                     console.log(e.target.value);
                     form.submit();
                 });
             }
     
             window.addEventListener(onload, courses());
+            //window.addEventListener(onload, categories());
         </script>
     </div>
 {% endblock %}

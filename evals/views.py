@@ -317,6 +317,7 @@ def stuVisualizations(request):
 
     courses = Course.objects.filter(enrollment__student_id=student.id)
     course = courses.first()
+    categories = Category.objects.all()
 
     if request.method == 'POST':
         course = courses.get(id=int(request.POST.get('course')))
@@ -329,6 +330,7 @@ def stuVisualizations(request):
     avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
     print(course)
     context = {
+        'categories': categories,
         'courses': courses,
         'selected': course,
         'avgStu': avgStu,
