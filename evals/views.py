@@ -322,13 +322,14 @@ def stuVisualizations(request):
     if request.method == 'POST':
         course = courses.get(id=int(request.POST.get('course')))
 
-    group = Group.objects.filter(course=course.id).first()
+    group = Group.objects.filter(projectgroup__student_id=student.id, projectgroup__group__course_id=course.id).first()
+    print(group)
     scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.id, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, categoryID__description='Overall')
     avgStu = scoresForCourse.aggregate(Avg('score'))['score__avg']
 
     scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
     avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
-    print(course)
+
     context = {
         'categories': categories,
         'courses': courses,

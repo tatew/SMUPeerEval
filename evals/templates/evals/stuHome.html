@@ -20,19 +20,25 @@
                 <th>Due Date</th>
             </thead>
             <tbody>
-                {% for group in groups %}
+                {% if not groups %}
                     <tr>
-                        <td class="group"><h3>{{group.group.course.courseName}} - {{ group.group.groupName }}</h3></td>
-                        <td>
-                            {% if not group.submitted %}
-                                <a class="buttonLink" href="/evals/complete/{{group.group.id}}/">Fill out<i class="fas fa-pencil-alt"></i></a>
-                            {% else %}
-                                <i class="fas fa-check"></i>
-                            {% endif %}
-                        </td>
-                        <td>{{ group.due }}</td>
+                        <td colspan="3">No evaluations assigned</td>
                     </tr>
-                {% endfor%}
+                {% else %}
+                    {% for group in groups %}
+                        <tr>
+                            <td class="group"><h3>{{group.group.course.courseName}} - {{ group.group.groupName }}</h3></td>
+                            <td>
+                                {% if not group.submitted %}
+                                    <a class="buttonLink" href="/evals/complete/{{group.group.id}}/">Fill out<i class="fas fa-pencil-alt"></i></a>
+                                {% else %}
+                                    <i class="fas fa-check"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ group.due }}</td>
+                        </tr>
+                    {% endfor%}
+                {% endif %}
             </tbody>
         </table>
         <div class="results">

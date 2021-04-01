@@ -70,8 +70,11 @@
             </div>
         {% endif %}
         {% if complete %}
+            <div>
+                <p>Evaluation Successfully Completed!</p>
+            </div>
             <div class="complete">
-                <a class="btn oswald" href="{% url 'home' %}">Go Home!</a>
+                <a class="btn oswald" href="{% url 'home' %}">Go Home</a>
             </div>
         {% endif %}
     </div>  
