@@ -327,8 +327,11 @@ def stuVisualizations(request):
     scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.id, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, categoryID__description='Overall')
     avgStu = scoresForCourse.aggregate(Avg('score'))['score__avg']
 
-    scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
-    avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
+    try:
+        scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
+        avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
+    except:
+        avgTeam = None
 
     context = {
         'categories': categories,
