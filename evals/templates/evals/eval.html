@@ -39,16 +39,16 @@
         </div>
         {% if reviewee %}
             <div class="evalForm">
-                <table>
-                    <thead>
-                        <th id="evalInstructions"><p>Student: {{reviewee}}</p><p>1 = Very Poor</p><p>5 = Very Good</p></th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                    </thead>
-                    <form action="/evals/complete/{{group.id}}/" method="POST" id="evalForm"></form>
+                <form action="/evals/complete/{{group.id}}/" method="POST" id="evalForm">
+                    <table>
+                        <thead>
+                            <th id="evalInstructions"><p>Student: {{reviewee}}</p><p>1 = Very Poor</p><p>5 = Very Good</p></th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                        </thead>
                         {% csrf_token %}
                         <input type="checkbox" name="completed" hidden checked>
                         <input type="number" name="reviewee" hidden value="{{reviewee.id}}">
@@ -64,16 +64,15 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </form>
-                </table>
-            </div>
-            <div>
-                <button class="btn oswald" form="evalForm" type="submit">Submit<i class="fas fa-check"></i></button>
+                    </table>
+                    <button class="btn oswald" type="submit">Submit<i class="fas fa-check"></i></button>
+                </form>
             </div>
         {% endif %}
         {% if complete %}
-            <h3>Complete!</h3>
-            <a class="btn oswald" href="{% url 'home' %}">Go Home!</a>
+            <div class="complete">
+                <a class="btn oswald" href="{% url 'home' %}">Go Home!</a>
+            </div>
         {% endif %}
     </div>  
 {% endblock %}

@@ -447,6 +447,8 @@ table, th, td {
     cursor: pointer;
     border-radius: 2px;
     border: 2px solid rgb(69,110,173);
+    text-align: center;
+    
 }
 
 .btn:hover {
@@ -584,11 +586,19 @@ table, th, td {
     border: 2px solid black;
 }
 
-.eval .evalForm {
+.eval .evalForm form {
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.eval .evalForm form button {
+    margin-top: 1rem;
+}
+
+.eval .evalForm {
+    width: 100%;
 }
 
 .eval table {
