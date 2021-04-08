@@ -13,18 +13,22 @@
     <h3 class="oswald altHeader">Create Account</h3>
     <form method="POST" action="{% url 'createAccountPost' %}">
         <div class="row">
-            <label>Email: </label>{{email}}<input type="text" name="email" id="email" hidden value="{{email}}">
+            <label>Email: {{email}}</label><input type="text" name="email" id="email" hidden value="{{email}}">
         </div>
         {% csrf_token %}
         {% for field in form %}
             <div class="row">
-                {{ field.label_tag }} {{ field }}
-                {% if field.help_text %}
-                    <em class="helpText">{{ field.help_text }}</em>
-                {% endif %}
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
+                <div class="field">
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                <div class="help">
+                    {% if field.help_text %}
+                        <em class="helpText">{{ field.help_text }}</em>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </div>
             </div>
         {% endfor %}
         <div class="buttonContainer">

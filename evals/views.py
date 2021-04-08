@@ -235,9 +235,21 @@ def createAccountPost(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
+            userEmail = form.cleaned_data.get('email')
             user = authenticate(username=username, password=raw_password)
-            permission = Permission.objects.get(codename='is_professor')
-            user.user_permissions.add(permission)
+            user.first_name = service.getFirstNameForEmail(userEmail)
+            user.last_name = service.getLastNameForEmail(userEmail)
+            user.save()
+
+            userType = service.getUserType(userEmail)
+            if (userType == 'professor'):
+                permission = Permission.objects.get(codename='is_professor')
+                user.user_permissions.add(permission)
+
+            if (userType == 'student'):
+                permission = Permission.objects.get(codename='is_student')
+                user.user_permissions.add(permission)
+
             login(request, user)
             return HttpResponseRedirect('../../home/')
 
@@ -247,14 +259,10 @@ def createAccount(request, email):
         user = User.objects.get(email=email)
     except:
         exists = False
-    isProf = True
-    try:
-        prof = Professor.objects.get(email=email)
-    except:
-        isProf = False
 
-    print(exists, isProf)
-    if not exists and isProf:
+    userType = service.getUserType(email)
+    print(exists, userType)
+    if not exists and userType != None:
         form = UserCreationForm()
         context = {
             'email': email,
@@ -263,7 +271,7 @@ def createAccount(request, email):
         
         return render(request, 'evals/newAccount.html', context)
     else:
-        return HttpResponse("Account creation forbiden: Error Code 21-315")
+        return HttpResponse("Account creation forbiden: an account with this email already exists, or the email is not associated with a student or professor")
 
 def notImplemented(request):
     return HttpResponse("This link is not yet implemented. One of these days Tate will get his act together and get it done.")
