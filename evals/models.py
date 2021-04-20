@@ -74,3 +74,8 @@ class Score(models.Model):
     categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
     AssessmentSubmittedID = models.ForeignKey(AssessmentSubmitted, on_delete=models.RESTRICT)
     score = models.IntegerField()
+
+class Administrator(models.Model):
+    lastName = models.CharField(max_length=50)
+    firstName = models.CharField(max_length=50)
+    email = models.CharField(max_length=100)
