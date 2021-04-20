@@ -260,6 +260,9 @@ def createAccount(request, email):
     except:
         exists = False
 
+    if exists:
+        return redirect('accountExists')
+
     userType = service.getUserType(email)
     print(exists, userType)
     if not exists and userType != None:
@@ -271,7 +274,13 @@ def createAccount(request, email):
         
         return render(request, 'evals/newAccount.html', context)
     else:
-        return HttpResponse("Account creation forbiden: an account with this email already exists, or the email is not associated with a student or professor")
+        return redirect('accountNotFound')
+
+def accountExists(request):
+    return render(request, 'evals/accountExists.html')
+
+def accountNotFound(request):
+    return render(request, 'evals/accountNotFound.html')
 
 def notImplemented(request):
     return HttpResponse("This link is not yet implemented. One of these days Tate will get his act together and get it done.")

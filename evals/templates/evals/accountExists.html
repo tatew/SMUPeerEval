@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h1 class="oswald">SMU Peer Evaluation System</h1>
+{% endblock%} 
+
+{% block content %}
+    <div class="exists">
+        <h3 class="altHeader">An account with that email already exists!</h3>
+        <a href="{% url 'login' %}" class="btn oswald">Back to Login</a>
+    </div>
+{% endblock %}
