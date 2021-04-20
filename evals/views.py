@@ -358,3 +358,6 @@ def stuVisualizations(request):
         'avgTeam': avgTeam
     }
     return render(request, 'evals/stuVisualizations.html', context)
+
+def adminHome(request):
+    return render(request, 'evals/adminHome.html')

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h1 class="oswald">Home</h1>
+{% endblock%} 
+
+{% block nav %}
+    <a href="{% url 'notImplemented' %}">View Profile</a>
+    <a href="{% url 'logout' %}" class="last">Log Out</a>
+{% endblock %}
+
+{% block content %}
+    <div class="adminHome">
+        <h2 class="oswald">Welcome, Administrator!</h2>
+    </div>
+{% endblock %}
