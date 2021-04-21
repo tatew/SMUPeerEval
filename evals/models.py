@@ -57,9 +57,15 @@ class AssessmentAssigned(models.Model):
     expiration = models.DateField(null=True)
     message = models.TextField(default="")
 
+    class Meta:
+        verbose_name_plural = "Assessments Assigned"
+
 class AssessmentSubmitted(models.Model):
     assessmentAssignedID = models.ForeignKey(AssessmentAssigned, on_delete=models.RESTRICT)
     submitted = models.DateTimeField('Submitted:')
+
+    class Meta:
+        verbose_name_plural = "Assessments Submitted"
 
 class Category(models.Model):
     description = models.CharField(max_length=255)

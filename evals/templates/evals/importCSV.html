@@ -3,6 +3,9 @@
     {{ block.super }}
     <form action="upload-csv/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        <h1>Import Students from CSV</h1>
+        <p>CSV must have the following headers:</p>
+        <p>lastname,firstname,email,school,programme</p>
         <label for="csv_file">Choose a CSV file to upload:</label>
         <input type="file" id="csv_file" name="csv_file" >
         <input type="submit" value="Upload">
