@@ -1,4 +1,4 @@
-from .models import AssessmentAssigned, AssessmentSubmitted, Score, Category, Student, Group, Professor
+from .models import AssessmentAssigned, AssessmentSubmitted, Score, Category, Student, Group, Professor, Administrator
 from django.contrib.auth.models import User, Permission
 from datetime import datetime
 import pytz
@@ -16,11 +16,19 @@ class service:
             Student.objects.get(email=email)
         except:
             isStu = False
+        isAdmin = True
+        try: 
+            Administrator.objects.get(email=email)
+        except:
+            isAdmin = False
+        print(isProf, isStu, isAdmin)
 
         if isStu:
             return 'student'
         elif isProf:
             return 'professor'
+        elif isAdmin:
+            return 'admin'
         else:
             return None
 
@@ -30,6 +38,8 @@ class service:
             return Professor.objects.get(email=email).firstName
         if userType == 'student':
             return Student.objects.get(email=email).firstName
+        if userType == 'admin':
+            return Administrator.objects.get(email=email).firstName
 
     def getLastNameForEmail(email):
         userType = service.getUserType(email);
@@ -37,6 +47,8 @@ class service:
             return Professor.objects.get(email=email).lastName
         if userType == 'student':
             return Student.objects.get(email=email).lastName
+        if userType == 'admin':
+            return Administrator.objects.get(email=email).lastName
 
 
     def assessmentCompleted(assessments):

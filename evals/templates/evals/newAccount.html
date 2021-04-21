@@ -11,7 +11,7 @@
 {% block content %}
 <div class="createAccount">
     <h3 class="oswald altHeader">Create Account</h3>
-    <form method="POST" action="{% url 'createAccountPost' %}">
+    <form method="POST" action="/accounts/new/{{email}}/">
         <div class="row">
             <label>Email: {{email}}</label><input type="text" name="email" id="email" hidden value="{{email}}">
         </div>

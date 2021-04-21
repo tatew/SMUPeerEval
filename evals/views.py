@@ -26,6 +26,9 @@ def home(request):
     is_student = request.user.has_perm('evals.is_student')
     if (is_student):
         return redirect(stuHome)
+    is_admin = request.user.has_perm('evals.is_admin')
+    if (is_admin):
+        return redirect(adminHome)
         
 @permission_required('evals.is_student')
 def stuHome(request):
@@ -223,20 +226,21 @@ def visual(request):
 
 def createAccountEmail(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST['email'].lower()
         return HttpResponseRedirect(f'/accounts/new/{email}/')
     else:
         return render(request, 'evals/createAccountEmail.html')
 
-def createAccountPost(request):
+def createAccount(request, email):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            userEmail = form.cleaned_data.get('email')
+            userEmail = email
             user = authenticate(username=username, password=raw_password)
+            user.email = userEmail
             user.first_name = service.getFirstNameForEmail(userEmail)
             user.last_name = service.getLastNameForEmail(userEmail)
             user.save()
@@ -250,10 +254,19 @@ def createAccountPost(request):
                 permission = Permission.objects.get(codename='is_student')
                 user.user_permissions.add(permission)
 
-            login(request, user)
-            return HttpResponseRedirect('../../home/')
+            if (userType == 'admin'):
+                permission = Permission.objects.get(codename='is_admin')
+                user.user_permissions.add(permission)
 
-def createAccount(request, email):
+            login(request, user)
+            return redirect('home')
+        else:
+            context = {
+                'email': email,
+                'form': form
+            }
+            return render(request, 'evals/newAccount.html', context)
+
     exists = True
     try:
         user = User.objects.get(email=email)
@@ -271,7 +284,6 @@ def createAccount(request, email):
             'email': email,
             'form': form
         }
-        
         return render(request, 'evals/newAccount.html', context)
     else:
         return redirect('accountNotFound')
@@ -359,5 +371,6 @@ def stuVisualizations(request):
     }
     return render(request, 'evals/stuVisualizations.html', context)
 
+@permission_required('evals.is_admin')
 def adminHome(request):
     return render(request, 'evals/adminHome.html')

@@ -79,3 +79,8 @@ class Administrator(models.Model):
     lastName = models.CharField(max_length=50)
     firstName = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
+
+    class Meta:
+        permissions = [
+            ("is_admin", "If the User is a Administrator ")
+        ]
