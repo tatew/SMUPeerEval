@@ -20,10 +20,10 @@
                 <label for="coursesDropdown">Choose a course:</label>
                 <select name="course" id="coursesDropdown">
                     {% for course in courses %}
-                        {% if selected == course.id %}
-                        <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                        {% if selected == course.CRN %}
+                        <option value="{{ course.CRN }}" selected>{{course.courseName}}</option>
                         {% else %}
-                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                        <option value="{{ course.CRN }}" >{{course.courseName}}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
@@ -38,7 +38,7 @@
             
             <div class="students">
                 {% for student in students %}
-                    <label class="student" for="{{ student.id }}"><input id="studentCheckboxes" type="checkbox" name="students" value={{student.id}}> {{student.firstName}} {{student.lastName}}</label>
+                    <label class="student" for="{{ student.studentNumber }}"><input id="studentCheckboxes" type="checkbox" name="students" value={{student.studentNumber}}> {{student.firstName}} {{student.lastName}}</label>
                 {% endfor %}
             </div>
             <input type="number" name="courseId" hidden value="{{ selected }}">

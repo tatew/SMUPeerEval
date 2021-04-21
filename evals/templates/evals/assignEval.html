@@ -22,7 +22,7 @@
                 <label for="courses">Course Number:</label>
                 <select name="course" id="courses" required>
                     {% for course in courses %}
-                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                        <option value="{{ course.CRN }}" >{{course.courseName}}</option>
                     {% endfor %}
                 </select>
             </div>

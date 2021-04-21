@@ -4,14 +4,14 @@ from django.contrib import messages
 
 def importCSV(reader, request):
     reader.__next__()
-    header = ['lastName', 'firstName', 'email', 'school', 'programme']
+    header = ['studentNumber', 'lastName', 'firstName', 'email', 'school', 'programme']
     line = 1
     num_imported = 0
     num_failed = 0
     for row in reader:
         row = {header[i]: row[i] for i in range(len(row))}
         row['email'] = row['email'].lower()
-        if len(row) != 5:
+        if len(row) != 6:
             messages.error(request, f"Error creating student on line {line}. This student was not created")
             num_failed += 1
         else:

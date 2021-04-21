@@ -1,3 +1,3 @@
-lastName,firstName,email,school,programme
-Johnny,BigJohn@smu.edu.sg,Business,Management
-Hudson,Daniel,danny@smu.edu.sg,Business,Management
+studentNumber,lastName,firstName,email,school,programme
+906420001,Johnson,Johnny,BigJohn@smu.edu.sg,Business,Management
+906420002,Hudson,Daniel,danny@smu.edu.sg,Business,Management

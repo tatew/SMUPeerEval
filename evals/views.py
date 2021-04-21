@@ -33,7 +33,7 @@ def home(request):
 @permission_required('evals.is_student')
 def stuHome(request):
     student = Student.objects.get(email=request.user.email)
-    assessments = AssessmentAssigned.objects.filter(reviewer=student.id)
+    assessments = AssessmentAssigned.objects.filter(reviewer=student.studentNumber)
     groupIds = assessments.values('group').distinct()
 
     groupObjs = []
@@ -96,14 +96,13 @@ def addCourse(request):
 @permission_required('evals.is_professor')
 def addGroup(request):
     courses = Course.objects.order_by('courseName')
-    selected = courses[0].id
+    selected = courses[0].CRN
     
     if request.method == 'POST':
         print(request.POST)
         selected = int(request.POST['course'])
         
-
-    students = students = Student.objects.filter(enrollment__course_id=selected)
+    students = Student.objects.filter(enrollment__course_id=selected)
     context = {
         'courses': courses,
         'selected': selected,
@@ -120,7 +119,7 @@ def addGroupSubmit(request):
 
         for studentId in request.POST.getlist('students'):
             stuId = int(studentId)
-            student = Student.objects.get(id=stuId)
+            student = Student.objects.get(studentNumber=stuId)
             pGroup = projectGroup(student=student, group=newGroup)
             pGroup.save()
         
@@ -135,7 +134,7 @@ def assignEval(request):
         for group in groups:
             students = Student.objects.filter(projectgroup__group_id=group.id)
             for student in students:
-                otherStudents = students.filter(~Q(id=student.id))
+                otherStudents = students.filter(~Q(studentNumber=student.studentNumber))
                 for otherStudent in otherStudents:
                     date = datetime.strptime(request.POST['expire'], '%Y-%m-%d')
                     assessment = AssessmentAssigned(assigned=datetime.now(pytz.utc), reviewer=student, reviewee=otherStudent, group=group, expiration=date, message=request.POST['message'])
@@ -201,7 +200,7 @@ def groups(request):
             if (request.POST['course'] == '-1'):
                 courses = Course.objects.order_by('courseName')
             else:
-                groups = Group.objects.filter(course__id=request.POST['course'])
+                groups = Group.objects.filter(course__CRN=request.POST['course'])
                 selected = int(request.POST['course'])
         if 'groupId' in request.POST:
             students = Student.objects.filter(projectgroup__group_id=int(request.POST['groupId']))
@@ -312,13 +311,13 @@ def evalFillOut(request, groupId):
         if (completed):
             service.recordScore(request.POST, reviewerStudent, group)
         else:
-            reviewee = Student.objects.get(id=request.POST['studentId'])
-    
-    students = Student.objects.filter(projectgroup__group_id=groupId).exclude(id=reviewerStudent.id)
+            reviewee = Student.objects.get(studentNumber=request.POST['studentId'])
+
+    students = Student.objects.filter(projectgroup__group_id=groupId).exclude(studentNumber=reviewerStudent.studentNumber)
     studentObjs = []
     assessments = []
     for stu in students:
-        assessment = AssessmentAssigned.objects.get(reviewee=stu.id, reviewer=reviewerStudent.id, group=group.id)
+        assessment = AssessmentAssigned.objects.get(reviewee=stu.studentNumber, reviewer=reviewerStudent.studentNumber, group=group.id)
         submitted = AssessmentSubmitted.objects.filter(assessmentAssignedID=assessment.id).exists()
         stuObj = {
             'student': stu,
@@ -344,20 +343,20 @@ def evalFillOut(request, groupId):
 def stuVisualizations(request):
     student = Student.objects.get(email=request.user.email)
 
-    courses = Course.objects.filter(enrollment__student_id=student.id)
+    courses = Course.objects.filter(enrollment__student_id=student.studentNumber)
     course = courses.first()
     categories = Category.objects.all()
 
     if request.method == 'POST':
-        course = courses.get(id=int(request.POST.get('course')))
+        course = courses.get(CRN=int(request.POST.get('course')))
 
-    group = Group.objects.filter(projectgroup__student_id=student.id, projectgroup__group__course_id=course.id).first()
+    group = Group.objects.filter(projectgroup__student_id=student.studentNumber, projectgroup__group__course_id=course.CRN).first()
     print(group)
-    scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.id, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, categoryID__description='Overall')
+    scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.studentNumber, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.CRN, categoryID__description='Overall')
     avgStu = scoresForCourse.aggregate(Avg('score'))['score__avg']
 
     try:
-        scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.id, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
+        scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.CRN, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
         avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
     except:
         avgTeam = None

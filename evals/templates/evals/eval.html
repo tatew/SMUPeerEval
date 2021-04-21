@@ -25,7 +25,7 @@
                             <td>{{student.student}}</td>
                             {% if not student.submitted %}
                                 <form action="/evals/complete/{{group.id}}/" method="POST">
-                                    <input type="number" name="studentId" id="studentId" value="{{student.student.id}}" hidden>
+                                    <input type="number" name="studentId" id="studentId" value="{{student.student.studentNumber}}" hidden>
                                     {% csrf_token %}
                                     <td><button type="submit" class="btn oswald">Evaluate<i class="fas fa-pencil-alt"></i></button></td>
                                 </form>
@@ -51,7 +51,7 @@
                         </thead>
                         {% csrf_token %}
                         <input type="checkbox" name="completed" hidden checked>
-                        <input type="number" name="reviewee" hidden value="{{reviewee.id}}">
+                        <input type="number" name="reviewee" hidden value="{{reviewee.studentNumber}}">
                         <tbody>
                             {% for category in categories %}
                                 <tr>

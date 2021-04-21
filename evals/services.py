@@ -59,6 +59,7 @@ class service:
         return completed
 
     def recordScore(form, reviewer, group):
+        print(form.get('reviewee'))
         assessment = AssessmentAssigned.objects.get(reviewer=reviewer, group=group, reviewee=form.get('reviewee'))
         assessmentSubmitted = AssessmentSubmitted(assessmentAssignedID=assessment, submitted=datetime.now(pytz.utc))
         assessmentSubmitted.save()

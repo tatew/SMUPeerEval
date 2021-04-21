@@ -6,10 +6,14 @@ class Professor(models.Model):
     firstName = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
     school = models.CharField(max_length=100)
+
     class Meta:
         permissions = [
             ("is_professor", "If the User is a professor ")
         ]
+
+    def __str__(self):
+        return f'{self.firstName} {self.lastName}'
 
 class Course(models.Model):
     CRN = models.IntegerField(primary_key=True, default=-1)
@@ -21,7 +25,7 @@ class Course(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.RESTRICT)
 
     def __str__(self):
-        return f'{self.discipline} {self.courseNumber} {self.courseName}'
+        return f'{self.discipline} {self.courseNumber} - {self.courseName}'
 
 class Student(models.Model):
     studentNumber = models.IntegerField(primary_key=True, default=-1)

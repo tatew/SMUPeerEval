@@ -21,10 +21,10 @@
                 <select name="course" id="course">
                     <option value="-1">All</option>
                     {% for course in courses %}
-                        {% if selected == course.id %}
-                        <option value="{{ course.id }}" selected>{{course.courseName}}</option>
+                        {% if selected == course.CRN %}
+                        <option value="{{ course.CRN }}" selected>{{course.courseName}}</option>
                         {% else %}
-                        <option value="{{ course.id }}" >{{course.courseName}}</option>
+                        <option value="{{ course.CRN }}" >{{course.courseName}}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
