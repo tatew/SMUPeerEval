@@ -12,6 +12,7 @@ class Professor(models.Model):
         ]
 
 class Course(models.Model):
+    CRN = models.IntegerField(primary_key=True)
     courseName = models.CharField(max_length=50)
     courseNumber = models.IntegerField()
     maxStudents = models.IntegerField()
@@ -23,6 +24,7 @@ class Course(models.Model):
         return f'{self.discipline} {self.courseNumber} {self.courseName}'
 
 class Student(models.Model):
+    studentNumber = models.IntegerField(primary_key=True)
     lastName = models.CharField(max_length=50)
     firstName = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
