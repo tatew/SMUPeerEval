@@ -354,10 +354,13 @@ def stuVisualizations(request):
     print(group)
     scoresForCourse = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__reviewee_id=student.studentNumber, AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.CRN, categoryID__description='Overall')
     avgStu = scoresForCourse.aggregate(Avg('score'))['score__avg']
+    if avgStu != None:
+        avgStu = round(avgStu, 2)
 
     try:
         scoresForTeam = Score.objects.filter(AssessmentSubmittedID__assessmentAssignedID__group__course_id=course.CRN, AssessmentSubmittedID__assessmentAssignedID__group_id=group.id, categoryID__description='Overall')
         avgTeam = scoresForTeam.aggregate(Avg('score'))['score__avg']
+        avgTeam = round(avgTeam, 2)
     except:
         avgTeam = None
 
